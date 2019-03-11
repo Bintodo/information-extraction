@@ -285,8 +285,8 @@ if __name__ == '__main__':
     ttt = data_generator.get_test_reader()
     for index, features in enumerate(ttt()):
         input_sent, word_idx_list, postag_list, p_idx, label_list = features
-        print input_sent.encode('utf-8')
-        print '1st features:', len(word_idx_list), word_idx_list
-        print '2nd features:', len(postag_list), postag_list
-        print '3rd features:', len(p_idx), p_idx
-        print '4th features:', len(label_list), label_list
+        print(input_sent.encode('utf-8'))
+        print('1st features:', len(word_idx_list), word_idx_list)
+        print('2nd features:', len(postag_list), postag_list)
+        print('3rd features:', len(p_idx), p_idx)
+        print('4th features:', len(label_list), label_list)

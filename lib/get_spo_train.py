@@ -22,8 +22,8 @@ import random
 import codecs
 import sys
 import json
-reload(sys)
-sys.setdefaultencoding('utf-8')
+# reload(sys)
+# sys.setdefaultencoding('utf-8')
 
 def get_p(input_file):
     """
@@ -38,7 +38,7 @@ def get_p(input_file):
             spo_list = dic['spo_list']
             p_list = [item['predicate'] for item in spo_list]
             for p in p_list:
-                print "\t".join([json.dumps(dic, ensure_ascii=False), p]).encode('utf-8')
+                print("\t".join([json.dumps(dic, ensure_ascii=False), p]).encode('utf-8'))
 
 
 if __name__ == '__main__':

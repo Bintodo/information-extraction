@@ -29,14 +29,15 @@ import numpy as np
 import paddle
 import paddle.fluid as fluid
 
-import p_data_reader
+from info_extractor.base_line.bin.p_classification import p_data_reader
 
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "../../lib")))
-import conf_lib
+# import conf_lib
+from info_extractor.base_line.lib import conf_lib
 
 
 def predict_infer(conf_dict, data_reader, predict_data_path, \
-        predict_result_path, model_path):
+                  predict_result_path, model_path):
     """
     Predict with trained models 
     """
@@ -58,9 +59,9 @@ def predict_infer(conf_dict, data_reader, predict_data_path, \
     exe = fluid.Executor(place)
 
     test_batch_reader = paddle.batch(
-        paddle.reader.buffered(data_reader.get_predict_reader\
-                (predict_data_path, need_input=True, need_label=False),
-                size=8192),
+        paddle.reader.buffered(data_reader.get_predict_reader \
+                                   (predict_data_path, need_input=True, need_label=False),
+                               size=8192),
         batch_size=conf_dict["batch_size"])
     inference_scope = fluid.core.Scope()
     with fluid.scope_guard(inference_scope):
@@ -80,9 +81,9 @@ def predict_infer(conf_dict, data_reader, predict_data_path, \
             results = exe.run(inference_program, feed=feeder.feed(feeder_data),
                               fetch_list=fetch_targets, return_numpy=False)
             label_scores = np.array(results[0]).tolist()
-            #infer a batch
+            # infer a batch
             infer_a_batch(label_scores, input_data, result_writer, data_reader)
-            
+
             batch_id += 1
 
 
@@ -105,8 +106,8 @@ def sigmoid(x):
     return math.exp(x) / (1 + math.exp(x))
 
 
-def main(conf_dict, model_path, predict_data_path, 
-            predict_result_path, use_cuda=False):
+def main(conf_dict, model_path, predict_data_path,
+         predict_result_path, use_cuda=False):
     """Predict main function"""
     if use_cuda and not fluid.core.is_compiled_with_cuda():
         return
@@ -116,23 +117,23 @@ def main(conf_dict, model_path, predict_data_path,
         label_dict_path=conf_dict['label_dict_path'],
         train_data_list_path=conf_dict['train_data_path'],
         test_data_list_path=conf_dict['test_data_path'])
-    
+
     predict_infer(conf_dict, data_generator, predict_data_path, \
-            predict_result_path, model_path)
+                  predict_result_path, model_path)
 
 
 if __name__ == '__main__':
     # Load configuration file
     parser = argparse.ArgumentParser()
     parser.add_argument("--conf_path", type=str,
-            help="conf_file_path_for_model. (default: %(default)s)",
-            required=True)
+                        help="conf_file_path_for_model. (default: %(default)s)",
+                        required=True)
     parser.add_argument("--model_path", type=str,
-            help="model_path", required=True)
+                        help="model_path", required=True)
     parser.add_argument("--predict_file", type=str,
-            help="the_file_to_be_predicted", required=True)
+                        help="the_file_to_be_predicted", required=True)
     parser.add_argument("--result_file", type=str,
-            default='', help="the_file_of_predicted_results")
+                        default='', help="the_file_of_predicted_results")
     args = parser.parse_args()
     conf_dict = conf_lib.load_conf(args.conf_path)
     model_path = args.model_path

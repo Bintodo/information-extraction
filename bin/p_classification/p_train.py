@@ -29,11 +29,11 @@ import paddle
 import paddle.fluid as fluid
 import six
 
-import p_data_reader
-import p_model
+from info_extractor.base_line.bin.p_classification import p_data_reader
+from info_extractor.base_line.bin.p_classification import p_model
 
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "../../lib")))
-import conf_lib
+from info_extractor.base_line.lib import conf_lib
 
 
 def train(conf_dict, data_reader, use_cuda=False):

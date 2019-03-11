@@ -23,8 +23,10 @@ import os
 import codecs
 import sys
 import json
-reload(sys)
-sys.setdefaultencoding('utf-8')
+
+
+# reload(sys)
+# sys.setdefaultencoding('utf-8')
 
 def load_word_file(f_input):
     """
@@ -63,14 +65,14 @@ def get_vocab(train_file, dev_file):
             word_dic[word] += dev_word_dic[word]
         else:
             word_dic[word] = dev_word_dic[word]
-    print '<UNK>'
+    print('<UNK>')
     vocab_set = set()
-    value_list = sorted(word_dic.iteritems(), key=lambda d:d[1], reverse=True)
+    value_list = sorted(word_dic.iteritems(), key=lambda d: d[1], reverse=True)
     for word in value_list[:30000]:
-        print word[0]
+        print(word[0])
         vocab_set.add(word[0])
 
-    #add predicate in all_50_schemas
+    # add predicate in all_50_schemas
     if not os.path.exists('./data/all_50_schemas'):
         raise ValueError("./data/all_50_schemas not found.")
     with codecs.open('./data/all_50_schemas', 'r', 'utf-8') as fr:
@@ -79,9 +81,9 @@ def get_vocab(train_file, dev_file):
             p = dic['predicate']
             if p not in vocab_set:
                 vocab_set.add(p)
-                print p
+                print(p)
 
-    
+
 if __name__ == '__main__':
     train_file = sys.argv[1]
     dev_file = sys.argv[2]

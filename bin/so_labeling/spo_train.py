@@ -29,11 +29,11 @@ import paddle
 import paddle.fluid as fluid
 import six
 
-import spo_data_reader
-import spo_model
+from info_extractor.base_line.bin.so_labeling import spo_data_reader
+from info_extractor.base_line.bin.so_labeling import spo_model
 
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "../../lib")))
-import conf_lib
+from info_extractor.base_line.lib import conf_lib
 
 
 
